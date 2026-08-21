@@ -1,0 +1,47 @@
+replicaCount: 1
+
+image:
+  repository: jbgwese/python-app
+  pullPolicy: IfNotPresent
+  tag: v1
+
+serviceAccount:
+  create: false
+  annotations: {}
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 5000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: python-app.test.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+httpRoute:
+  enabled: false
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+readinessProbe:
+  httpGet:
+    path: /api/v1/healthz
+    port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  httpGet:
+    path: /api/v1/healthz
+    port: 5000
+  initialDelaySeconds: 15
+  periodSeconds: 20
