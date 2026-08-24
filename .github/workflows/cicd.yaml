@@ -1,4 +1,4 @@
-name: ci
+name: cicd
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
       - main
 
 jobs:
-  docker:
-    runs-on: self-hosted
+  ci:
+    runs-on: ubuntu-latest
     steps:
       -
         name: Shorten commit id
@@ -28,3 +28,9 @@ jobs:
         with:
           push: true
           tags: jbgwese/python-app:${{env.COMMIT_ID}}
+#  cd:
+#    runs-on: self-hosted
+#    steps:
+#      - name: Argodc AppSync
+#        shell: bash
+#        run:
